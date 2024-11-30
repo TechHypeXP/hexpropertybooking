@@ -1,0 +1,346 @@
+{
+    "name": "HexProperty Core Metrics",
+    "description": "Comprehensive monitoring dashboard for HexProperty platform",
+    "refresh": "30s",
+    "panels": [
+        {
+            "title": "Core Business Metrics",
+            "type": "stat-panel",
+            "metrics": [
+                {
+                    "name": "active_listings",
+                    "aggregation": "current",
+                    "window": "5m"
+                },
+                {
+                    "name": "daily_bookings",
+                    "aggregation": "sum",
+                    "window": "24h"
+                },
+                {
+                    "name": "conversion_rate",
+                    "aggregation": "ratio",
+                    "window": "24h"
+                }
+            ]
+        },
+        {
+            "title": "System Health",
+            "type": "health-panel",
+            "metrics": [
+                {
+                    "name": "api_health",
+                    "threshold": "error_rate < 1%"
+                },
+                {
+                    "name": "database_health",
+                    "threshold": "latency < 100ms"
+                }
+            ]
+        },
+        {
+            "title": "Property Search Performance",
+            "type": "graph",
+            "metrics": [
+                {
+                    "name": "property_search_latency",
+                    "aggregation": "p95",
+                    "window": "5m"
+                },
+                {
+                    "name": "property_search_request",
+                    "aggregation": "rate",
+                    "window": "1m"
+                }
+            ]
+        },
+        {
+            "title": "Recommendation Quality",
+            "type": "heatmap",
+            "metrics": [
+                {
+                    "name": "recommendation_score",
+                    "aggregation": "avg",
+                    "window": "1h",
+                    "dimensions": ["user_id", "property_id"]
+                }
+            ]
+        },
+        {
+            "title": "User Engagement",
+            "type": "stacked-area",
+            "metrics": [
+                {
+                    "name": "property_view_duration",
+                    "aggregation": "histogram",
+                    "window": "1h",
+                    "buckets": [
+                        "0-30s",
+                        "30s-2m",
+                        "2m-5m",
+                        "5m+"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Booking Success Rate",
+            "type": "gauge",
+            "metrics": [
+                {
+                    "name": "booking_attempt",
+                    "aggregation": "success_rate",
+                    "window": "24h"
+                }
+            ],
+            "thresholds": {
+                "warning": 0.9,
+                "critical": 0.8
+            }
+        },
+        {
+            "title": "System Health",
+            "type": "status",
+            "metrics": [
+                {
+                    "name": "system_cpu_usage",
+                    "threshold": 80
+                },
+                {
+                    "name": "system_memory_usage",
+                    "threshold": 85
+                },
+                {
+                    "name": "system_request_rate",
+                    "threshold": 1000
+                }
+            ]
+        },
+        {
+            "title": "Error Tracking",
+            "type": "table",
+            "metrics": [
+                {
+                    "name": "error_rate",
+                    "aggregation": "count",
+                    "window": "1h",
+                    "groupBy": ["operation", "error_type"]
+                }
+            ]
+        },
+        {
+            "title": "ML Model Performance",
+            "type": "ml-performance",
+            "metrics": [
+                {
+                    "name": "recommendation_accuracy",
+                    "aggregation": "rolling_avg",
+                    "window": "7d"
+                },
+                {
+                    "name": "price_prediction_error",
+                    "aggregation": "rmse",
+                    "window": "24h"
+                }
+            ]
+        },
+        {
+            "title": "User Behavior Analysis",
+            "type": "funnel",
+            "metrics": [
+                {
+                    "name": "search_to_view",
+                    "conversion_step": 1
+                },
+                {
+                    "name": "view_to_contact",
+                    "conversion_step": 2
+                },
+                {
+                    "name": "contact_to_booking",
+                    "conversion_step": 3
+                }
+            ]
+        },
+        {
+            "title": "Geographic Performance",
+            "type": "geo-heatmap",
+            "metrics": [
+                {
+                    "name": "booking_density",
+                    "aggregation": "count",
+                    "dimensions": ["city", "neighborhood"]
+                }
+            ]
+        },
+        {
+            "title": "System Performance",
+            "type": "performance-grid",
+            "metrics": [
+                {
+                    "name": "api_latency",
+                    "aggregation": "p95",
+                    "window": "5m",
+                    "dimensions": ["endpoint", "region"]
+                },
+                {
+                    "name": "database_operations",
+                    "aggregation": "rate",
+                    "window": "1m",
+                    "dimensions": ["operation_type"]
+                }
+            ]
+        },
+        {
+            "title": "Resource Utilization",
+            "type": "resource-usage",
+            "metrics": [
+                {
+                    "name": "cpu_usage",
+                    "aggregation": "max",
+                    "window": "5m",
+                    "threshold": 80
+                },
+                {
+                    "name": "memory_usage",
+                    "aggregation": "avg",
+                    "window": "5m",
+                    "threshold": 85
+                }
+            ]
+        },
+        {
+            "title": "Load Distribution",
+            "type": "load-heatmap",
+            "metrics": [
+                {
+                    "name": "request_distribution",
+                    "aggregation": "count",
+                    "dimensions": ["service", "instance"]
+                }
+            ]
+        },
+        {
+            "title": "Caching Performance",
+            "type": "cache-metrics",
+            "metrics": [
+                {
+                    "name": "cache_hit_ratio",
+                    "aggregation": "ratio",
+                    "window": "5m"
+                },
+                {
+                    "name": "cache_latency",
+                    "aggregation": "p95",
+                    "window": "1m"
+                }
+            ]
+        },
+        {
+            "title": "Availability Service Integration",
+            "type": "status-panel",
+            "metrics": [
+                {
+                    "name": "availability_check_latency",
+                    "aggregation": "p95",
+                    "window": "5m"
+                },
+                {
+                    "name": "availability_check_success_rate",
+                    "aggregation": "ratio",
+                    "window": "5m"
+                },
+                {
+                    "name": "system_sync_status",
+                    "aggregation": "latest",
+                    "window": "1m"
+                }
+            ]
+        }
+    ],
+    "alerts": [
+        {
+            "name": "Critical System Health",
+            "condition": "health_score < 0.9",
+            "severity": "critical"
+        },
+        {
+            "name": "High Latency Alert",
+            "condition": {
+                "metric": "property_search_latency",
+                "aggregation": "p95",
+                "window": "5m",
+                "threshold": 2000,
+                "operator": ">"
+            },
+            "severity": "warning"
+        },
+        {
+            "name": "Low Recommendation Quality",
+            "condition": {
+                "metric": "recommendation_score",
+                "aggregation": "avg",
+                "window": "1h",
+                "threshold": 0.6,
+                "operator": "<"
+            },
+            "severity": "warning"
+        },
+        {
+            "name": "Critical Booking Failure Rate",
+            "condition": {
+                "metric": "booking_attempt",
+                "aggregation": "success_rate",
+                "window": "1h",
+                "threshold": 0.8,
+                "operator": "<"
+            },
+            "severity": "critical"
+        },
+        {
+            "name": "ML Performance Degradation",
+            "condition": "recommendation_accuracy < 0.8",
+            "severity": "warning",
+            "actions": ["retrain_model"]
+        },
+        {
+            "name": "Unusual Booking Pattern",
+            "condition": "booking_rate > avg(7d) * 2",
+            "severity": "info",
+            "actions": ["notify_analytics"]
+        },
+        {
+            "name": "High Resource Usage",
+            "condition": {
+                "type": "composite",
+                "conditions": [
+                    "cpu_usage > 80",
+                    "memory_usage > 85"
+                ],
+                "operator": "OR"
+            },
+            "severity": "critical",
+            "actions": ["scale_up", "notify_ops"]
+        },
+        {
+            "name": "Cache Performance",
+            "condition": "cache_hit_ratio < 0.7",
+            "severity": "warning",
+            "actions": ["optimize_cache"]
+        }
+    ],
+    "optimizations": {
+        "metric_sampling": {
+            "high_volume_endpoints": 0.1,
+            "normal_endpoints": 1.0
+        },
+        "retention": {
+            "raw_metrics": "7d",
+            "aggregated_metrics": "90d"
+        },
+        "compression": {
+            "enabled": true,
+            "algorithm": "gzip"
+        }
+    }
+}

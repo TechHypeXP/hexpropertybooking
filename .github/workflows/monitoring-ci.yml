@@ -1,0 +1,67 @@
+name: Monitoring System CI
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/monitoring/**'
+      - 'test/monitoring/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'src/monitoring/**'
+      - 'test/monitoring/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run tests
+      run: npm run test:monitoring
+      env:
+        NODE_ENV: test
+        GOOGLE_CLOUD_PROJECT: test-project
+        PROMETHEUS_ENDPOINT: http://localhost:9090
+    
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
+      with:
+        flags: monitoring
+        name: monitoring-coverage
+
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run ESLint
+      run: npm run lint
+      
+    - name: Run TypeScript compiler
+      run: npm run type-check

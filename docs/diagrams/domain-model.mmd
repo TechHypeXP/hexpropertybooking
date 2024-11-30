@@ -1,0 +1,36 @@
+classDiagram
+    class Booking {
+        +String id
+        +String propertyId
+        +DateRange dates
+        +BookingStatus status
+        +confirm()
+        +cancel()
+        +modify()
+    }
+
+    class Property {
+        +String id
+        +String name
+        +Location location
+        +checkAvailability()
+        +updatePrice()
+    }
+
+    class Channel {
+        +String id
+        +String name
+        +syncAvailability()
+        +syncPrices()
+    }
+
+    class Guest {
+        +String id
+        +String name
+        +Contact contact
+        +verify()
+    }
+
+    Booking -- Property
+    Booking -- Guest
+    Property -- Channel

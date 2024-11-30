@@ -1,0 +1,210 @@
+"""
+GraphQL Schema for Property Hierarchy
+Provides comprehensive querying capabilities for property-related entities
+"""
+
+type GeoCoordinates {
+  latitude: Float!
+  longitude: Float!
+}
+
+type Property {
+  id: ID!
+  buildingId: ID!
+  bedrooms: Int!
+  floor: Int!
+  unit: String!
+  createdAt: String!
+  updatedAt: String
+}
+
+type Building {
+  id: ID!
+  name: String!
+  zoneId: ID!
+  properties: [Property!]!
+  propertyCount: Int!
+  totalBedrooms: Int!
+}
+
+type Zone {
+  id: ID!
+  name: String!
+  compoundId: ID!
+  buildings: [Building!]!
+  buildingCount: Int!
+  facilities: [Facility!]!
+}
+
+type Facility {
+  id: ID!
+  name: String!
+  capacity: Int!
+  type: FacilityType!
+}
+
+enum FacilityType {
+  RECREATION
+  SPORTS
+  WELLNESS
+  DINING
+  BUSINESS
+  OTHER
+}
+
+type Compound {
+  id: ID!
+  name: String!
+  locationId: ID!
+  zones: [Zone!]!
+  zoneCount: Int!
+  sharedFacilities: Boolean!
+}
+
+type Location {
+  id: ID!
+  name: String!
+  address: String!
+  coordinates: GeoCoordinates!
+  compounds: [Compound!]!
+  compoundCount: Int!
+  distanceFrom(latitude: Float!, longitude: Float!): Float
+}
+
+input PropertyFilter {
+  bedrooms: Int
+  minFloor: Int
+  maxFloor: Int
+  unit: String
+}
+
+input BuildingFilter {
+  name: String
+  minProperties: Int
+  maxProperties: Int
+}
+
+input ZoneFilter {
+  name: String
+  minBuildings: Int
+  maxBuildings: Int
+}
+
+input CompoundFilter {
+  name: String
+  sharedFacilities: Boolean
+}
+
+input LocationFilter {
+  name: String
+  minCompounds: Int
+  maxCompounds: Int
+}
+
+type Query {
+  """
+  Retrieve a specific property by ID
+  """
+  property(id: ID!): Property
+
+  """
+  Query properties with advanced filtering
+  """
+  properties(
+    filter: PropertyFilter
+    limit: Int = 10
+    offset: Int = 0
+  ): [Property!]!
+
+  """
+  Retrieve a specific building by ID
+  """
+  building(id: ID!): Building
+
+  """
+  Query buildings with advanced filtering
+  """
+  buildings(
+    filter: BuildingFilter
+    limit: Int = 10
+    offset: Int = 0
+  ): [Building!]!
+
+  """
+  Retrieve a specific zone by ID
+  """
+  zone(id: ID!): Zone
+
+  """
+  Query zones with advanced filtering
+  """
+  zones(
+    filter: ZoneFilter
+    limit: Int = 10
+    offset: Int = 0
+  ): [Zone!]!
+
+  """
+  Retrieve a specific compound by ID
+  """
+  compound(id: ID!): Compound
+
+  """
+  Query compounds with advanced filtering
+  """
+  compounds(
+    filter: CompoundFilter
+    limit: Int = 10
+    offset: Int = 0
+  ): [Compound!]!
+
+  """
+  Retrieve a specific location by ID
+  """
+  location(id: ID!): Location
+
+  """
+  Query locations with advanced filtering
+  """
+  locations(
+    filter: LocationFilter
+    limit: Int = 10
+    offset: Int = 0
+  ): [Location!]!
+}
+
+type Mutation {
+  """
+  Create a new property
+  """
+  createProperty(
+    buildingId: ID!
+    bedrooms: Int!
+    floor: Int!
+    unit: String!
+  ): Property!
+
+  """
+  Update an existing property
+  """
+  updateProperty(
+    id: ID!
+    bedrooms: Int
+    floor: Int
+    unit: String
+  ): Property!
+
+  """
+  Delete a property
+  """
+  deleteProperty(id: ID!): Boolean!
+}
+
+"""
+Subscription for real-time updates
+"""
+type Subscription {
+  propertyCreated: Property!
+  propertyUpdated: Property!
+  propertyDeleted: ID!
+}
